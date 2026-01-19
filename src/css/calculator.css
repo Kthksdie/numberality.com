@@ -1,0 +1,110 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+#calculatorControl {
+    width: 300px;
+    background: linear-gradient(135deg, #313131, #212121);
+    margin: auto 60px 60px auto;
+    position: absolute;
+    overflow: hidden;
+    border-radius: 7px;
+    bottom: 0%;
+    right: 0%;
+    z-index: 1;
+}
+
+.screen {
+    background: #fff;
+    padding: 15px 28px;
+    text-align: right;
+    font-size: 29px;
+    height: 33.33333%;
+    color: #4c455a;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    transition: color .6s ease-in-out;
+}
+
+.screen::after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+.buttons button {
+    float: right;
+    border: none;
+    background: transparent;
+    color: #fff;
+    padding: 15px 10px;
+    outline: none;
+    text-shadow: 0 2px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 7px;
+}
+
+.buttons button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.buttons button:active,
+.buttons button.active {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 7px;
+}
+
+.buttons::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.buttons .numbers {
+    float: left;
+    width: 75%;
+    padding: 10px 10px 0px 10px;
+}
+
+.buttons .numbers button {
+    width: 33.3333%;
+    padding: 18px 10px;
+}
+
+.buttons .operators {
+    float: right;
+    width: 25%;
+    padding: 16px 10px 10px;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.buttons .operators button {
+    width: 100%;
+    padding: 11px 10px;
+}
+
+.buttons .operators button[data-val="n^"] {
+    font-size: 14px;
+}
+
+.buttons .operators button[data-val="*"] {
+    font-size: 14px;
+}
+
+.buttons .operators button[data-val="+"] {
+    font-size: 16px;
+}
+
+.buttons .operators button[data-val="/"] {
+    font-size: 16px;
+}
+
+.buttons .operators button[data-val="-"] {
+    font-size: 16px;
+}
+
+.buttons .operators button[data-val="="] {
+    font-size: 16px;
+}

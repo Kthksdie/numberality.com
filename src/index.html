@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta property="og:title" content="Numberality">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.numberality.com/">
+    <meta property="og:description"
+        content="Discover the hidden patterns in numbers. Explore the world of integers with my interactive calculator that displays factors in a clear, visual format.">
+    <meta property="og:image" content="images/preview_1200x630.png" />
+
+    <title>Numberality</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="stylesheet" href="css/calculator.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/input.css">
+</head>
+
+<body>
+    <canvas id="primaryCanvas"></canvas>
+
+    <nav id="primaryControls" class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Numberality</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <!-- Main Controls Container -->
+                <div class="d-flex flex-wrap align-items-center gap-3">
+
+                    <!-- Sequence Controls -->
+                    <div class="d-flex align-items-center gap-2 border-end pe-3 border-secondary">
+                        <div class="input-group input-group-sm">
+                            <select id="sequences" name="sequences" class="form-select form-select-sm"
+                                style="max-width: 150px;"></select>
+                            <button id="playButton" class="btn btn-outline-light btn-sm" type="button">
+                                <i class="bi bi-play-fill"></i> play
+                            </button>
+                            <button id="nextButton" class="btn btn-outline-light btn-sm" type="button">next</button>
+                            <span id="frameRateIndicator"
+                                class="input-group-text input-group-text-sm bg-dark text-white border-secondary"
+                                style="display: none;">10fps</span>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="d-flex align-items-center gap-2 border-end pe-3 border-secondary">
+                        <button id="scanButton" class="btn btn-outline-light btn-sm" type="button">scan</button>
+                        <button id="testButton" class="btn btn-outline-light btn-sm" type="button">test</button>
+                    </div>
+
+                    <!-- Visual Settings -->
+                    <div class="d-flex align-items-center gap-2 border-end pe-3 border-secondary">
+                        <div class="input-group input-group-sm">
+                            <span
+                                class="input-group-text input-group-text-sm bg-dark text-secondary border-secondary">style</span>
+                            <select id="styles" name="styles"
+                                class="form-select form-select-sm bg-dark text-white border-secondary"></select>
+                        </div>
+
+                        <div class="input-group input-group-sm">
+                            <span
+                                class="input-group-text input-group-text-sm bg-dark text-secondary border-secondary">level</span>
+                            <input type="number" id="level" name="level" value="1" min="1" step="1"
+                                class="form-control form-control-sm bg-dark text-white border-secondary"
+                                style="width: 60px;">
+                        </div>
+
+                        <div class="input-group input-group-sm">
+                            <span
+                                class="input-group-text input-group-text-sm bg-dark text-secondary border-secondary">legs</span>
+                            <input type="number" id="leg" name="leg" value="0" min="0" max="88" step="0.5"
+                                class="form-control form-control-sm bg-dark text-white border-secondary"
+                                style="width: 60px;">
+                        </div>
+
+                        <div class="input-group input-group-sm">
+                            <span
+                                class="input-group-text input-group-text-sm bg-dark text-secondary border-secondary">size</span>
+                            <input type="number" id="size" name="size" value="0" min="1" max="16" step="1"
+                                class="form-control form-control-sm bg-dark text-white border-secondary"
+                                style="width: 60px;">
+                        </div>
+                        <div class="input-group input-group-sm">
+                            <span
+                                class="input-group-text input-group-text-sm bg-dark text-secondary border-secondary">iter</span>
+                            <span id="iteration"
+                                class="input-group-text input-group-text-sm bg-dark text-white border-secondary"
+                                style="min-width: 30px; justify-content: center;">|</span>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Inputs -->
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="input-group input-group-sm">
+                            <span
+                                class="input-group-text input-group-text-sm bg-dark text-secondary border-secondary">OEIS</span>
+                            <input type="text" id="customOeis" name="customOeis"
+                                class="form-control form-control-sm bg-dark text-white border-secondary"
+                                placeholder="A000001" style="display: none; width: 90px;">
+                            <a id="oeisLink" href="#" target="_blank" class="btn btn-outline-secondary btn-sm"
+                                style="display: none;">View</a>
+                        </div>
+                        <div class="input-group input-group-sm">
+                            <span
+                                class="input-group-text input-group-text-sm bg-dark text-secondary border-secondary">Custom</span>
+                            <input type="text" id="customList" name="customList"
+                                class="form-control form-control-sm bg-dark text-white border-secondary"
+                                placeholder="1,2,3..." style="display: none; width: 100px;">
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Right Side Controls -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown me-3">
+                        <a class="nav-link dropdown-toggle" href="#" id="aboutDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Info
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="aboutDropdown">
+                            <div class="dropdown-item-text">
+                                <dl class="mb-0">
+                                    <dt>Supports arbitrary precision integers</dt>
+                                    <dd>Primality checked with Euler test (base 3)</dd>
+                                    <dd>No limits, you can cause your browser to hang</dd>
+                                    <dt>Enter numbers with the keyboard or number pad</dt>
+                                    <dt>Use the calculator with the keyboard or number pad</dt>
+                                    <dt>Numbers can be pasted</dt>
+                                    <dt>[scroll] for increasing/decreasing n</dt>
+                                    <dt>[wasd] for increasing/decreasing n and level</dt>
+                                    <dt>[mouse-drag] for increasing/decreasing n and level</dt>
+                                    <dt>[delete] to clear/reset.</dt>
+                                    <dt>[backspace] to undo last typed character.</dt>
+                                    <dt>&nbsp;</dt>
+                                    <dt>Probably has a few bugs</dt>
+                                    <dt><a href="https://twitter.com/JKthksdie" target="_blank">@JKthksdie</a></dt>
+                                </dl>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="d-flex align-items-center">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-text input-group-text-sm">n</span>
+                                <input id="key" name="key" type="text" class="form-control form-control-sm" value="0"
+                                    aria-label="n" aria-describedby="key" readonly disabled style="width: 80px;">
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <div id="calculatorControl">
+        <div class="screen">0</div>
+        <div class="buttons">
+            <div class="numbers">
+                <button data-val="9">9</button>
+                <button data-val="8">8</button>
+                <button data-val="7">7</button>
+                <button data-val="6">6</button>
+                <button data-val="5">5</button>
+                <button data-val="4">4</button>
+                <button data-val="3">3</button>
+                <button data-val="2">2</button>
+                <button data-val="1">1</button>
+                <button data-val="Enter">=</button>
+                <button data-val="0" href="0">0</button>
+                <button data-val="Delete">C</button>
+            </div>
+            <div class="operators">
+                <button data-val="±">+/-</button>
+                <button data-val="√">√</button>
+                <button data-val="^">n^</button>
+                <button data-val="*">x</button>
+                <button data-val="/">÷</button>
+                <button data-val="+">+</button>
+                <button data-val="-">-</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/colors.js"></script>
+    <script src="js/maths.js"></script>
+    <script src="js/mouse.js"></script>
+    <script src="js/calculator.js"></script>
+    <script src="js/sequences.js"></script>
+    <script src="js/sequencer.js"></script>
+    <script src="js/scanner.js"></script>
+    <script src="js/random.js"></script>
+    <script src="js/index.js"></script>
+
+    <script>
+        window.requestAnimationFrame = (function () {
+            return window.requestAnimationFrame ||
+                window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame ||
+                window.oRequestAnimationFrame ||
+                window.msRequestAnimationFrame ||
+                function (callback) {
+                    window.setTimeout(callback, 1000 / 60);
+                };
+        })();
+
+        window.addEventListener("load", (e) => {
+            app.initialize();
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

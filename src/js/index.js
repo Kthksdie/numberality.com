@@ -6,6 +6,7 @@
 /// <reference path="sequencer.js" />
 /// <reference path="scanner.js" />
 /// <reference path="random.js" />
+/// <reference path="NumberBlock.js" />
 
 const primaryControlsElement = document.getElementById("primaryControls");
 
@@ -262,26 +263,26 @@ const app = {
             stepOffset = parseInt(remainder) * app.blockDiameter;
             stepSize = parseInt(divisor) * app.blockDiameter;
 
-            keyPointMinus = {
-                n: n - remainder,
-                d: divisor,
-                x: keyPoint.x - stepOffset,
-                y: keyPoint.y,
-                divisorOfKey: remainder == 0n,
-                step: 0
-            };
+            keyPointMinus = new NumberBlock(
+                n - remainder,
+                divisor,
+                keyPoint.x - stepOffset,
+                keyPoint.y,
+                remainder == 0n,
+                0
+            );
 
             while (keyPointMinus.x > 0) {
                 yield keyPointMinus;
 
                 if (divisor > 1n) {
-                    let midPoint = copyPoint(keyPointMinus);
+                    let midPoint = keyPointMinus.clone();
                     midPoint.middle = true;
                     midPoint.x -= stepSize / 2;
 
                     yield midPoint;
 
-                    let midPoint2 = copyPoint(keyPointMinus);
+                    let midPoint2 = keyPointMinus.clone();
                     midPoint2.middle = true;
                     midPoint2.x += stepSize / 2;
 
@@ -293,20 +294,20 @@ const app = {
                 keyPointMinus.step -= 1;
             }
 
-            keyPointPlus = {
-                n: (n - remainder) + divisor,
-                d: divisor,
-                x: (keyPoint.x - stepOffset) + stepSize,
-                y: keyPoint.y,
-                divisorOfKey: remainder == 0n,
-                step: 1
-            };
+            keyPointPlus = new NumberBlock(
+                (n - remainder) + divisor,
+                divisor,
+                (keyPoint.x - stepOffset) + stepSize,
+                keyPoint.y,
+                remainder == 0n,
+                1
+            );
 
             while (keyPointPlus.x < app.screenWidth) {
                 yield keyPointPlus;
 
                 if (divisor > 1n) {
-                    let midPoint = copyPoint(keyPointPlus);
+                    let midPoint = keyPointPlus.clone();
                     midPoint.middle = true;
                     midPoint.x += stepSize / 2;
 

@@ -169,7 +169,7 @@ This project is open source. Please check the repository for specific licensing 
 
 - **Developer**: @JKthksdie
 - **Website**: https://www.numberality.com/
-- **Twitter**: [@JKthksdie](https://twitter.com/JKthksdie)
+- **Twitter**: [@JasonLee2122](https://twitter.com/JasonLee2122)
 
 ## Acknowledgments
 

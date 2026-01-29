@@ -167,7 +167,7 @@ This project is open source. Please check the repository for specific licensing 
 
 ## Contact
 
-- **Developer**: @JKthksdie
+- **Developer**: Kthksdie
 - **Website**: https://www.numberality.com/
 - **Twitter**: [@JasonLee2122](https://twitter.com/JasonLee2122)
 
